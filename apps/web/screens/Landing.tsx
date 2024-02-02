@@ -3,13 +3,14 @@ import { getFunction } from "@repo/common";
 import { TrackCard } from "@repo/ui/components";
 import Link from "next/link";
 import { AppbarClient } from "../components/AppbarClient";
+import { cn } from "@repo/ui/utils";
 
 async function getTracks() {
   const getTracksFn = getFunction("getTracks");
   try {
     const tracks: any = await getTracksFn();
     console.log(tracks);
-    return tracks.data.tracks || [];
+    return tracks.data.tracks.concat(tracks.data.tracks) || [];
   } catch (e) {
     return [];
   }
@@ -27,13 +28,16 @@ export async function Landing() {
         </div>
         <div>
           <ul className="p-8 md:20 grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-2">
-            {tracks.map((t: Track) => (
-              <li key={t.id}>
-                <Link className="max-w-screen-md w-full" href={`/tracks/${t.id}`}>
-                  <TrackCard track={t} />
-                </Link>
-              </li>
-            ))}
+            {tracks.map((t: Track, idx: number) => {
+              const featured = idx === 0 && true;
+              return (
+                <li key={t.id} className={cn({ "row-span-3": featured })}>
+                  <Link className="max-w-screen-md w-full" href={`/tracks/${t.id}`}>
+                    <TrackCard track={t} featured={featured} />
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>
