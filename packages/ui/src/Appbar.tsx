@@ -5,16 +5,25 @@ import { auth } from "@repo/common";
 import { useRouter } from "next/navigation";
 import { AdminButton } from "./AdminButton";
 import { ModeToggle } from "./ModeToggle";
+import { cn } from "@repo/ui/utils";
+import { Roboto_Mono as LogoFont } from "next/font/google";
+
+const fontLogo = LogoFont({
+  subsets: ["latin"],
+});
 
 export const Appbar = ({ user }: { user: User | null }) => {
   const router = useRouter();
   const admin = false;
 
   return (
-    <div className="bg-zinc-950 p-3 flex justify-center">
-      <div className="max-w-screen-xl flex justify-between w-full">
+    <header className="bg-zinc-950 p-3 flex justify-center">
+      <div className="container flex justify-between">
         <Link href={"/"}>
-          <div className="text-white text-2xl">DailyCode</div>
+          <div className="flex items-center gap-2">
+            <img src="/logo.png" alt="logo" className="h-10" />
+            <div className={cn("text-white text-2xl font-", fontLogo.className)}>DailyCode</div>
+          </div>
         </Link>
         <div className="flex items-center gap-2">
           {admin && <AdminButton />}
@@ -52,6 +61,6 @@ export const Appbar = ({ user }: { user: User | null }) => {
           )}
         </div>
       </div>
-    </div>
+    </header>
   );
 };
