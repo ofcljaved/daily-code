@@ -10,11 +10,20 @@ import "prismjs/themes/prism-tomorrow.css";
 
 // used for rendering equations (optional)
 import "katex/dist/katex.min.css";
+import { useTheme } from "next-themes";
 
 // Week-4-1-647987d9b1894c54ba5c822978377910
 export const NotionRenderer = ({ recordMap }: { recordMap: any }) => {
+  const { theme } = useTheme();
   return (
     <div className="">
+      <style>
+        {`
+          .notion-header {
+            display: none !important;
+          }
+        `}
+      </style>
       <div className="rounded-full">
         <NotionRendererLib
           components={{
@@ -22,7 +31,7 @@ export const NotionRenderer = ({ recordMap }: { recordMap: any }) => {
           }}
           recordMap={recordMap}
           fullPage={true}
-          darkMode={true}
+          darkMode={theme == "dark"}
         />
       </div>
     </div>
